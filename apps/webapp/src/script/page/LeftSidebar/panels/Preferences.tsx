@@ -33,6 +33,7 @@ import {
   PreferenceNotificationRepository,
 } from 'Repositories/notification/PreferenceNotificationRepository';
 import {TeamRepository} from 'Repositories/team/TeamRepository';
+import {Config} from 'src/script/Config';
 import {t} from 'Util/LocalizerUtil';
 
 import {ListWrapper} from './ListWrapper';
@@ -121,7 +122,7 @@ const Preferences = ({
 
   useEffect(() => {
     // Update local team
-    teamRepository.getTeam();
+    void teamRepository.getTeam();
   }, [teamRepository]);
 
   useEffect(() => {
@@ -133,6 +134,7 @@ const Preferences = ({
   }, [contentState, preferenceNotificationRepository]);
 
   const supportsCalling = Runtime.isSupportingLegacyCalling();
+  const enableTurnTesting = Config.getConfig().FEATURE.ENABLE_DEBUG;
 
   const preferencesItems = [
     {
@@ -165,6 +167,13 @@ const Preferences = ({
       id: ContentState.PREFERENCES_ABOUT,
       label: t('preferencesAbout'),
       uieName: 'go-about',
+    },
+    {
+      IconComponent: Icon.AvIcon,
+      hidden: !enableTurnTesting,
+      id: ContentState.PREFERENCES_TURN_TEST,
+      label: 'TURN Testing',
+      uieName: 'go-turn-test',
     },
   ];
 

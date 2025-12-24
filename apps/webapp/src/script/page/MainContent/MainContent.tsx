@@ -47,6 +47,7 @@ import {AccountPreferences} from './panels/preferences/AccountPreferences';
 import {AVPreferences} from './panels/preferences/AVPreferences';
 import {DevicesPreferences} from './panels/preferences/DevicesPreferences';
 import {OptionPreferences} from './panels/preferences/OptionPreferences';
+import {TurnTestPreferences} from './panels/preferences/TurnTestPreferences';
 
 import {RightSidebarParams} from '../AppMain';
 import {PanelState} from '../RightSidebar';
@@ -93,7 +94,7 @@ const MainContent = ({
       // Reset active conversation for all states that do not require a loaded conversation
       conversationState.activeConversation(undefined);
     }
-  }, [contentState, conversationState]);
+  }, [contentState, conversationState, isShowingConversation]);
 
   useEffect(() => {
     // Show legal hold on mount when legal hold is enabled for team
@@ -233,6 +234,19 @@ const MainContent = ({
                 ref={removeAnimationsClass}
               >
                 <OptionPreferences selfUser={selfUser} propertiesRepository={repositories.properties} />
+              </div>
+            )}
+
+            {contentState === ContentState.PREFERENCES_TURN_TEST && (
+              <div
+                id="preferences-turn-test"
+                className={cx('preferences-page preferences-turn-test', incomingCssClass)}
+                ref={removeAnimationsClass}
+              >
+                <TurnTestPreferences
+                  callingRepository={repositories.calling}
+                  conversationRepository={repositories.conversation}
+                />
               </div>
             )}
 
